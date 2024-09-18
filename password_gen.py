@@ -2,8 +2,13 @@ import random
 
 
 def random_pass_gen(pass_len=12):
+    """Generates a random password.
+    Specify length as argument.
+    Default length 12."""
     password = ""
-    actual_pass_len = 0
+    actual_pass_len = 0  # password length
+
+    # divides password length equally for all 4 types of characters (alphabets, numbers, special chars)
     each_len = int(pass_len / 4)
 
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -14,19 +19,26 @@ def random_pass_gen(pass_len=12):
         "chars": "!@#$%&*",
     }
 
-    count_dict = {"up_alpha": 0, "low_alpha": 0, "nums": 0, "chars": 0}
+    # keeps count of each type of characters present in password (limit is "each_len")
+    count_dict = {
+        "up_alpha": 0,
+        "low_alpha": 0,
+        "nums": 0,
+        "chars": 0,
+    }
 
-    item_list = [key for key in dict.keys()]
+    item_list = [key for key in count_dict.keys()]  # list of all type of characters
 
     while actual_pass_len < pass_len:
         if len(item_list) != 0:
-            chosen_item = random.choice(item_list)
-        chosen_char = random.choice(dict[chosen_item])
+            chosen_item = random.choice(item_list)  # choose character type
+        chosen_char = random.choice(dict[chosen_item])  # choose the random character
 
-        password += chosen_char
-        actual_pass_len += 1
-        count_dict[str(chosen_item)] += 1
+        password += chosen_char  # add the character to password string
+        actual_pass_len += 1  # increase the actual password length
+        count_dict[str(chosen_item)] += 1  # keep the count of the chosen character
 
+        # if the limit exceeds, remove the character type from list
         if chosen_item in item_list and count_dict[str(chosen_item)] == each_len:
             item_list.remove(str(chosen_item))
 
